@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Employee } from 'src/app/model/employee.model';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,9 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./add-employeee.component.scss']
 })
 export class AddEmployeeeComponent implements OnInit{
-onCheckboxChange($event: MatCheckboxChange) {
-throw new Error('Method not implemented.');
-}
+  public employee:Employee=new Employee();
+  employeeFormGroup: FormGroup<any>;
+
 
   departments: Array<any> = [
     {id: 1, name: "HR",value: "HR", checked: false},
@@ -22,15 +23,9 @@ throw new Error('Method not implemented.');
     {id: 4, name: "Engineer",value: "Engineer",checked: false},
     {id: 5,name: "Other",value: "Other",checked: false  }
   ]
- 
-
-  
-
-  employeeFormGroup: FormGroup;
-
-   constructor(private formBuilder: FormBuilder, 
+ constructor(private formBuilder: FormBuilder, 
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+   private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar) {
 this.employeeFormGroup = this.formBuilder.group({
 name: new FormControl('', [Validators.required, Validators.pattern("^[A-Z][a-zA-Z\\s]{2,}$")]),
@@ -42,9 +37,15 @@ startDate: new FormControl('', [Validators.required]),
 note: new FormControl('', [Validators.required]) 
 })
 }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
+ngOnInit(): void {
+  throw new Error('Method not implemented.');
+}
+onSubmit() {
+  const dataString = JSON.stringify(this.employeeFormGroup.value);
+  localStorage.setItem('formData', dataString);
+  this.employeeFormGroup.reset();
+}
+
   salary: number = 400000;
   updateSetting(event:any) {
     this.salary = event.value;
@@ -56,14 +57,18 @@ note: new FormControl('', [Validators.required])
     }
     return value;
   }
+  onCheckboxChange(event: MatCheckboxChange) {
+    const department: FormArray = this.employeeFormGroup.get('department') as FormArray;
 
-  onSubmit() {
-    const dataString = JSON.stringify(this.employeeFormGroup.value);
-    localStorage.setItem('formData', dataString);
-    this.employeeFormGroup.reset();
+    if (event.checked) {
+      department.push(new FormControl(event.source.value));
+    } else {
+      const index = department.controls.findIndex(x => x.value === event.source.value);
+      department.removeAt(index);
+    }
   }
 
-  onDepartmentChange(event: any) {
+ onDepartmentChange(event: any) {
     const departmentValue = event.value
     const SelectedDepartment = event.checked
     const departmentArray : FormArray =this.employeeFormGroup.get('department') as FormArray;

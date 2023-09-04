@@ -8,12 +8,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './material/angular-material/angular-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './components/header/header.component';
+import { HomeComponent } from './components/home/home.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     AddEmployeeeComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -26,3 +29,4 @@ import { HeaderComponent } from './components/header/header.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
