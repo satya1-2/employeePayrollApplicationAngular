@@ -3,11 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { AddEmployeeeComponent } from './components/add-employeee/add-employeee.component';
 
 const routes: Routes = [
-{ path: 'add-employeee', component: AddEmployeeeComponent },
-{ path: 'add-employeee/:id', component: AddEmployeeeComponent }];
+// {path:'add',component:AddEmployeeeComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

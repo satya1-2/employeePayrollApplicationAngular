@@ -7,11 +7,13 @@ import { AddEmployeeeComponent } from './components/add-employeee/add-employeee.
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './material/angular-material/angular-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddEmployeeeComponent
+    AddEmployeeeComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

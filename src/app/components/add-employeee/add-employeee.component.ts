@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-add-employeee',
@@ -9,9 +11,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   styleUrls: ['./add-employeee.component.scss']
 })
 export class AddEmployeeeComponent implements OnInit{
-//public employee: Employee = new Employee();
+onCheckboxChange($event: MatCheckboxChange) {
+throw new Error('Method not implemented.');
+}
 
-employeeForm!: FormGroup
   departments: Array<any> = [
     {id: 1, name: "HR",value: "HR", checked: false},
     {id: 2, name: "Sales",value: "Sales", checked: false },
@@ -19,37 +22,39 @@ employeeForm!: FormGroup
     {id: 4, name: "Engineer",value: "Engineer",checked: false},
     {id: 5,name: "Other",value: "Other",checked: false  }
   ]
+ 
+
+  
+
+  employeeFormGroup: FormGroup;
+
+   constructor(private formBuilder: FormBuilder, 
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBar) {
+this.employeeFormGroup = this.formBuilder.group({
+name: new FormControl('', [Validators.required, Validators.pattern("^[A-Z][a-zA-Z\\s]{2,}$")]),
+profilePic: new FormControl('', [Validators.required]),
+gender: new FormControl('', [Validators.required]),
+department: this.formBuilder.array([], [Validators.required]),
+salary: new FormControl('', [Validators.required]),
+startDate: new FormControl('', [Validators.required]),
+note: new FormControl('', [Validators.required]) 
+})
+}
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
   salary: number = 400000;
-  salaryForm: any;
+  updateSetting(event:any) {
+    this.salary = event.value;
+  }
+
   formatLabel(value: number) {
     if (value >= 1000) {
       return Math.round(value / 1000) + 'k';
     }
     return value;
-  }
-
-  updateSetting(event: Event) {
-    this.salary = (event.target as HTMLInputElement).valueAsNumber;
-    console.log('Selected Salary:', this.salary);
-    this.salaryForm.get('salary')?.setValue(this.salary);
-  }
-
-  employeeFormGroup: FormGroup;
-
-  constructor(private formBuilder: FormBuilder ) {
-    this.employeeFormGroup = this.formBuilder.group({
-      name: '',
-      profileimage:'',
-      gender:'',
-      department:'',
-      salary:'',
-      date:'',
-      notes:''
-
-    });
-  }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 
   onSubmit() {
@@ -61,7 +66,7 @@ employeeForm!: FormGroup
   onDepartmentChange(event: any) {
     const departmentValue = event.value
     const SelectedDepartment = event.checked
-    const departmentArray : FormArray =this.employeeForm.get('department') as FormArray;
+    const departmentArray : FormArray =this.employeeFormGroup.get('department') as FormArray;
 
     if (SelectedDepartment) {
       departmentArray.push(new FormControl(departmentValue));
