@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Employee } from 'src/app/model/employee.model';
+import { HttpService } from 'src/app/service/http.service';
 
 
 @Component({
@@ -14,40 +15,37 @@ import { Employee } from 'src/app/model/employee.model';
 })
 export class HomeComponent implements OnInit {
 
-  public employeeCount: number = 10; 
+  public employeeCount: number = 0; 
   public employeeDetails: Employee[] = [];
-  httpService: any;
-  snackBar: any;
-  dataService: any;
-  router: any;
 
-  constructor( ) { }
+
+  constructor(private httpService:HttpService) { }
 
   ngOnInit(): void {
-    this.httpService.getEmployeeData().subscribe((data: { data: Employee[]; }) => {
-      this.employeeDetails = data.data;
+    this.httpService.getEmployee().subscribe(response => {
+      this.employeeDetails = response.data;
       this.employeeCount = this.employeeDetails.length;
-      //console.log(this.employeeDetails);
+      console.log(this.employeeDetails);
     } );
   }
-  httpServicegetEmployeeData() {
-    throw new Error('Method not implemented.');
-  }
+  // httpServicegetEmployeeData() {
+  //   throw new Error('Method not implemented.');
+  // }
 
   remove(id: number): void {
-    this.httpService.deleteEmployeeData(id).subscribe((response: any) => {
-      console.log(response);
-      this.ngOnInit();
-      this.snackBar.open('Deleted Successfully!', '', {duration: 4000, verticalPosition: 'top'});
-    });
+    // this.httpService.deleteEmployeeData(id).subscribe((response: any) => {
+    //   console.log(response);
+    //   this.ngOnInit();
+    //   this.snackBar.open('Deleted Successfully!', '', {duration: 4000, verticalPosition: 'top'});
+    // });
   }
 
   update(employee: Employee): void {
-    this.dataService.changeEmployee(employee);
-    this.router.navigateByUrl('/add/' + employee.id);
-    this.httpService.updateEmployeData(employee.id, employee).subscribe((response: any) => {
-      console.log(response);
-      this.ngOnInit();
-    });
+    // this.dataService.changeEmployee(employee);
+    // this.router.navigateByUrl('/add/' + employee.id);
+    // this.httpService.updateEmployeData(employee.id, employee).subscribe((response: any) => {
+    //   console.log(response);
+    //   this.ngOnInit();
+    // });
   }
 }

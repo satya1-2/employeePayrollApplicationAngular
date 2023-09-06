@@ -40,11 +40,7 @@ note: new FormControl('', [Validators.required])
 ngOnInit(): void {
   throw new Error('Method not implemented.');
 }
-onSubmit() {
-  const dataString = JSON.stringify(this.employeeFormGroup.value);
-  localStorage.setItem('formData', dataString);
-  this.employeeFormGroup.reset();
-}
+
 
   salary: number = 400000;
   updateSetting(event:any) {
@@ -67,18 +63,12 @@ onSubmit() {
       department.removeAt(index);
     }
   }
-
- onDepartmentChange(event: any) {
-    const departmentValue = event.value
-    const SelectedDepartment = event.checked
-    const departmentArray : FormArray =this.employeeFormGroup.get('department') as FormArray;
-
-    if (SelectedDepartment) {
-      departmentArray.push(new FormControl(departmentValue));
-    } else {
-      const index = departmentArray.controls.findIndex(x => x.value ===departmentValue);
-      departmentArray.removeAt(index);
-    }
+  onSubmit() {
+    const dataString = JSON.stringify(this.employeeFormGroup.value);
+    localStorage.setItem('formData', dataString);
+    this.employeeFormGroup.reset();
+  console .log (dataString)
   }
+
 
 }
