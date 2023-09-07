@@ -19,7 +19,8 @@ export class HomeComponent implements OnInit {
   public employeeDetails: Employee[] = [];
 
 
-  constructor(private httpService:HttpService) { }
+  constructor(private httpService:HttpService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.httpService.getEmployee().subscribe(response => {
@@ -32,20 +33,21 @@ export class HomeComponent implements OnInit {
   //   throw new Error('Method not implemented.');
   // }
 
-  remove(id: number): void {
-    // this.httpService.deleteEmployeeData(id).subscribe((response: any) => {
-    //   console.log(response);
-    //   this.ngOnInit();
-    //   this.snackBar.open('Deleted Successfully!', '', {duration: 4000, verticalPosition: 'top'});
-    // });
+  remove(id:number): void {
+    this.httpService.removeEmployee(id).subscribe(response => {
+      console.log(response);
+      this.ngOnInit();
+    
+    });
   }
 
-  update(employee: Employee): void {
-    // this.dataService.changeEmployee(employee);
-    // this.router.navigateByUrl('/add/' + employee.id);
-    // this.httpService.updateEmployeData(employee.id, employee).subscribe((response: any) => {
-    //   console.log(response);
-    //   this.ngOnInit();
-    // });
+  update(employee: Employee){
+    this.router.navigateByUrl('/add/' + employee.id);
+   this.httpService.updateEmployee(employee.id,employee).subscribe(response => {
+     console.log(response);
+      this.ngOnInit();
+    })
+
+    // this.router.navigateByUrl('add/'+employee.id);
   }
 }

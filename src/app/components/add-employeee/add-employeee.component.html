@@ -76,7 +76,7 @@
     <!-- ---Input Salary------> 
     <div class="row-content">
       <label class="label text" for="salary">Choose your Salary </label>
-      <mat-slider thumbLabel [displayWith]="formatLabel"  #salaryOutput (change)="updateSetting($event)" tickInterval="1000" min="300000" max="500000" step="1000" aria-label="units" 
+      <mat-slider thumbLabel [displayWith]="formatLabel"  #salaryOutput (change)="updateSetting($event)" tickInterval="1000" min="20000" max="500000" step="1000" aria-label="units" 
       class="salary-input" name="salary" color="primary" showTickMarks discrete [displayWith]="formatLabel"   formControlName="salary"> 
         <input matSliderThumb [value]="salary" formControlName="salary">
       </mat-slider>

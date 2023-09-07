@@ -5,8 +5,10 @@ import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
 {path:'add',component:AddEmployeeeComponent },
- {path:'',component:AddEmployeeeComponent },
-  {path:'home',component:HomeComponent }
+ {path:'',redirectTo:'/home',pathMatch:'full' },
+  {path:'home',component:HomeComponent },
+  {path: 'add/:id',component:AddEmployeeeComponent}
+
 
 ];
 
